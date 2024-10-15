@@ -1,30 +1,23 @@
 package com.example.buffetec.network
 
-import retrofit2.Call  // Asegúrate de tener solo este import
+import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.POST
 
-// Define los datos del usuario que se enviarán a la API
-data class User(
-    val name: String,
-    val surname: String,
+// Data class para la solicitud de login
+data class LoginRequest(
     val email: String,
-    val pwd: String,
-    val address: String,
-    val neighborhood: String,
-    val city: String,
-    val state: String,
-    val cp: String
+    val password: String // Asegúrate de que este campo sea "password" en lugar de "pwd" si el backend lo requiere
 )
 
-// Interfaz para la API con Retrofit
-interface ApiService {
-    @POST("/register")
-    fun registerUser(@Body user: User): Call<UserResponse>
-}
-
-// Clase para manejar la respuesta de la API
-data class UserResponse(
+// Data class para manejar la respuesta del login (contiene el token)
+data class LoginResponse(
     val message: String,
-    val newUser: User
+    val token: String
 )
+
+// Define la interfaz de la API con Retrofit
+interface ApiService {
+    @POST("/api/login")  // Asegúrate de que el endpoint sea correcto
+    fun loginUser(@Body loginRequest: LoginRequest): Call<LoginResponse>
+}
